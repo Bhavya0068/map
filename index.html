@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Location-based Access</title>
+</head>
+<body>
+    <h1>Welcome to Map</h1>
+    <div id="map" style="display: none;">
+        <h2>Map of <span id="region"></span></h2>
+        <p id="map-iframe"></p>
+    </div>
+
+    <script>
+        function checkLocation() {
+            let location = prompt("Please enter your location:");
+            
+            if (location) {
+                location = location.toLowerCase();
+                if (location === "punjab"  ||  location === "haryana" || location === "chandigarh") {
+                    checkCredentials(location);
+                } else {
+                    alert("Access denied. Your location is not authorized.");
+                }
+            }
+        }
+
+        function checkCredentials(location) {
+            let username = prompt("Please enter your username:");
+            if (username) {
+                let password = prompt("Please enter your password:");
+                if (password) {
+                    
+                    if (username === "user" && password === "pass") {
+                        showMap(location);
+                    } else {
+                        alert("Wrong credentials. Access denied.");
+                    }
+                }
+            }
+        }
+
+        function showMap(location) {
+            document.getElementById("map").style.display = "block";
+            document.getElementById("region").textContent = location.toUpperCase();
+            let iframeSrc = "";
+            switch (location) {
+                case "punjab":
+                    iframeSrc = "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3501850.522745833!2d72.76862093311682!3d31.0046253468315!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x391964aa569e7355%3A0x8fbd263103a38861!2sPunjab!5e0!3m2!1sen!2sin!4v1722405432607!5m2!1sen!2sin";
+                    break;
+                case "haryana":
+                    iframeSrc = "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d7149553.5387947485!2d66.45708352596958!3d28.957933916541563!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x390db00b8670400b%3A0x732eaab4aaa6c143!2sHaryana!5e0!3m2!1sen!2sin!4v1722405940004!5m2!1sen!2sin";
+                    break;
+                case "chandigarh":
+                    iframeSrc = "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d109744.05905820726!2d76.6883111416747!3d30.73240198420725!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x390fed0be66ec96b%3A0xa5ff67f9527319fe!2sChandigarh!5e0!3m2!1sen!2sin!4v1722406161376!5m2!1sen!2sin";
+                    break;
+            }
+            let iframe = document.createElement("iframe");
+            iframe.src = iframeSrc;
+            iframe.width = "600";
+            iframe.height = "450";
+            iframe.style.border = "0";
+            iframe.allowFullscreen = true;
+            iframe.loading = "lazy";
+            iframe.referrerPolicy = "no-referrer-when-downgrade";
+            document.getElementById("map-iframe").appendChild(iframe);
+        }
+
+        // Start the process when the page loads
+        window.onload = checkLocation;
+    </script>
+</body>
+</html>
